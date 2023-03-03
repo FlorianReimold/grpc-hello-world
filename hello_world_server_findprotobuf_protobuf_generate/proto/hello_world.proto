@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto_messages;
+
+message HelloWorldRequest
+{
+  string name      = 1;
+}
+
+message HelloWorldResponse
+{
+  uint32 id        = 1;
+  string msg       = 2;
+}
+
+service HelloWorldService
+{
+  rpc SayHello(HelloWorldRequest) returns (HelloWorldResponse);
+}
