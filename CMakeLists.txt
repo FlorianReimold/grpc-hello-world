@@ -1,8 +1,26 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.19)
 project(grpc_hello_world)
 
-# Include findgrpc cmake module
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/gRPC")
+option(THIRDPARTY_BUILD_GRPC "Build gRPC Submodule" OFF)
+
+if (THIRDPARTY_BUILD_GRPC)
+    message(STATUS "Building gRPC from submodule")
+
+    # Set gRPC build options
+    set(gRPC_BUILD_TESTS OFF CACHE BOOL "Build gRPC tests" FORCE)
+
+    # Build gRPC Submodule
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/grpc/cmake/modules")
+
+    # Include gRPC cmake module
+    add_subdirectory(thirdparty/grpc EXCLUDE_FROM_ALL)
+
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/gRPC-submodule")
+else()
+    # Include findgrpc cmake module
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/gRPC-system")
+endif()
+
 
 # Include original protobuf-generate.cmake from Google.
 # The reason is that the protobuf_generate function from the
