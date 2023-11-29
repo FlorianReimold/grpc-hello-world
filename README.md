@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-Linux:
+Linux (for using system package grpc):
 ```
 sudo apt install libgrpc-dev libgrpc++-dev protobuf-compiler-grpc
 ```
